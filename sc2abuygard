@@ -9,5 +9,4 @@ while getgenv().autoGardenMerchant do task.wait()
         Remote:InvokeServer("GardenMerchant", count)
         count = count + 1
     end
-  print("Player Buying At Garden Merchant")
 end
