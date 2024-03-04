@@ -1,0 +1,41 @@
+  repeat task.wait() until game:IsLoaded()
+  wait(2)
+  print("Player Teleporting To Garden Merchant")
+  local Workspace = game:GetService("Workspace")
+  local ReplicatedStorage = game:GetService("ReplicatedStorage")
+  local Library = ReplicatedStorage:WaitForChild("Library")
+  local LocalPlayer = game:GetService("Players").LocalPlayer
+  print("Player Teleporting To Garden Merchant")
+  
+  local function teleportToGardenMerchant()
+      local zonePath
+      local teleported = false
+      while not teleported do
+          for _, v in pairs(Workspace.Map:GetChildren()) do
+              zonePath = game:GetService("Workspace").Map["54 | Flower Field"]
+              LocalPlayer.Character.HumanoidRootPart.CFrame = zonePath.PERSISTENT.Teleport.CFrame
+              teleported = true
+              break
+          end
+          task.wait()
+      end
+  
+      if not zonePath:FindFirstChild("INTERACT") then
+          local loaded = false
+          local detectLoad = zonePath.ChildAdded:Connect(function(child)
+              if child.Name == "INTERACT" then
+                  loaded = true
+              end
+          end)
+  
+          repeat
+              task.wait()
+          until loaded
+  
+          detectLoad:Disconnect()
+      end
+  
+      LocalPlayer.Character.HumanoidRootPart.CFrame = zonePath.INTERACT.Machines.GardenMerchant.PadGlow.CFrame
+  end
+  
+  teleportToGardenMerchant()
