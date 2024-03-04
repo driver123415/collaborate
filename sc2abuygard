@@ -1,0 +1,13 @@
+wait(3)
+getgenv().autoGardenMerchant = true
+
+local Remote = game.ReplicatedStorage.Network.Merchant_RequestPurchase
+
+while getgenv().autoGardenMerchant do task.wait()
+    local count = 1
+    for i = 1,6 do
+        Remote:InvokeServer("GardenMerchant", count)
+        count = count + 1
+    end
+  print("Player Buying At Garden Merchant")
+end
