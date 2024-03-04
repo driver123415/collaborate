@@ -1,0 +1,13 @@
+repeat task.wait() until game:IsLoaded()
+wait(5)
+local Thread1 = coroutine.create(function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(182.63, 23.43, 1990.16)
+                print("Teleporting Player To Enter Garden")
+end)
+
+coroutine.resume(Thread1)
+wait(300)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-533.32, 108.43, -1399.37)
+                print("Teleporting Player To Leave Garden")
