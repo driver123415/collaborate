@@ -1,0 +1,12 @@
+wait(3)
+getgenv().autoSeedBag = true
+
+local Remote = game.ReplicatedStorage.Network.GiftBag_Open
+
+while getgenv().autoSeedBag do task.wait()
+    local count = 1
+    for i = 1, 100 do --100 times
+        Remote:InvokeServer("Seed Bag", count)
+        count = count + 1
+    end
+end
