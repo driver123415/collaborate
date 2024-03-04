@@ -17,6 +17,7 @@ local scripts = {
     "https://raw.githubusercontent.com/driver123415/collaborate/main/sc4afarmgard",
     "https://raw.githubusercontent.com/driver123415/collaborate/main/sc5aorb",
     "https://raw.githubusercontent.com/driver123415/collaborate/main/sc6ntsdetectgard"
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc7antiafk"
 }
 
 executeScripts(scripts)
