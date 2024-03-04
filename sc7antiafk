@@ -3,9 +3,8 @@ wait(10)
 print("ANTI AFK IS RUNING")
 local virtualuser = game:GetService("VirtualUser")
 game:GetService("Players").LocalPlayer.Idled:Connect(function()
-    virtualuser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-    task.wait(5)
-    virtualuser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    virtualuser:CaptureController()
+    virtualuser:ClickButton2(Vector2.new())
 end)
 game.Players.LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
 game.Players.LocalPlayer.PlayerScripts.Scripts.Core["Server Closing"].Enabled = false
