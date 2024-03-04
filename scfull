@@ -1,5 +1,6 @@
 repeat task.wait() until game:IsLoaded()
 wait(5)
+print("Full Script Is Running")
 local function executeScripts(scripts)
     for _, script in ipairs(scripts) do
         local co = coroutine.create(function()
