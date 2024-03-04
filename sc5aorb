@@ -1,0 +1,44 @@
+
+-- MADE BY MLGWARFARE ON DISCORD
+local savemodule = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local SaveFile = savemodule.Get(game.Players.LocalPlayer)
+local UnlockedAreas = SaveFile.UnlockedZones
+
+local lplr = game:GetService("Players").LocalPlayer
+local Character = lplr.Character or lplr.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+local Enabled = true
+local Mouse = lplr:GetMouse()
+local MapContainer = workspace:WaitForChild("Map")
+local AreaModules = game:GetService("ReplicatedStorage"):WaitForChild("__DIRECTORY"):WaitForChild("Zones")
+local AreaUnlocker = game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Zones_RequestPurchase")
+local CurrentArea = 0 -- index to get next area
+local AreaToUnlock = ""
+local FieldPart = nil -- instance
+local AreaList = {}
+
+------ AUTO GET ORBS/LOOTBAGS
+local OrbRemote = game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect")
+local LootbagRemote = game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim")
+local OrbFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Orbs")
+local LootbagFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Lootbags")
+
+OrbFolder.ChildAdded:Connect(function(Orb)
+	task.wait(1.5)
+	Orb:PivotTo(HRP.CFrame)
+	OrbRemote:FireServer({Orb.Name})
+	task.wait()
+	Orb:Destroy()
+end)
+LootbagFolder.ChildAdded:Connect(function(Lootbag)
+	task.wait(4)
+	Lootbag:PivotTo(HRP.CFrame)
+	LootbagRemote:FireServer({Lootbag.Name})
+	task.wait()
+	Lootbag:Destroy()
+end)
+
+c = lplr.CharacterAdded:Connect(function(Char)
+	Character = Char
+	HRP = Character:WaitForChild("HumanoidRootPart")
+end)
