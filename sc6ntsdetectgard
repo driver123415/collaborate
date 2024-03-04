@@ -72,3 +72,9 @@ function Teleport()
         end)
     end
 end
+
+PlayerGui.Message.Changed:Connect(function()
+    if PlayerGui.Message.Enabled then
+        Teleport()
+    end
+end)
