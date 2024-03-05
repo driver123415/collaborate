@@ -1,7 +1,10 @@
-print("Detect Prompt Kick is RUNNING")
+repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+print("Detect Promt Kick Is RUNING")
 
-game:GetService("NetworkClient").ChildRemoved:Connect(function()
-    while true do
-        Instance.new("Part").Parent = game.Workspace
-    end
-end)
+local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
+
+        local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "Lol it should work :/")
+        assert(not prompt:FindFirstChild("ErrorPrompt"), prompt:FindFirstChild("ErrorPrompt") and wait(2) and ts:Teleport(game.PlaceId))
+        prompt.ChildAdded:Connect(function(child)
+           assert(child, typeof(child) == "Instance" and child.Name == "ErrorPrompt" and child.ClassName == "Frame" and wait(2) and ts:Teleport(game.PlaceId))
+        end)
