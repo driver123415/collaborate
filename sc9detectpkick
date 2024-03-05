@@ -1,11 +1,7 @@
-repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
 print("Detect Prompt Kick is RUNNING")
 
-local lp, po, ts = game:GetService('Players').LocalPlayer, game.CoreGui.RobloxPromptGui, game:GetService('TeleportService')
- 
-po.ChildAdded:Connect(function(a)
-    if a.Name == 'ErrorPrompt' then
-        ts:Teleport(game.PlaceId)
-        wait(2) -- Tunggu beberapa saat sebelum melakukan teleport lagi
+game:GetService("NetworkClient").ChildRemoved:Connect(function()
+    while true do
+        Instance.new("Part").Parent = game.Workspace
     end
 end)
