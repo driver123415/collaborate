@@ -1,13 +1,11 @@
 repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
-print("Detect Promt Kick Is RUNING")
+print("Detect Prompt Kick is RUNNING")
 
-local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
+local lp, po, ts = game:GetService('Players').LocalPlayer, game.CoreGui.RobloxPromptGui, game:GetService('TeleportService')
  
-po.ChildAdded:connect(function(a)
+po.ChildAdded:Connect(function(a)
     if a.Name == 'ErrorPrompt' then
-        repeat
-            ts:shutdown(game.PlaceId)
-            wait(2)
-        until false
+        ts:Teleport(game.PlaceId)
+        wait(2) -- Tunggu beberapa saat sebelum melakukan teleport lagi
     end
-end
+end)
