@@ -11,7 +11,7 @@ while true do
 
     coroutine.resume(Thread1)
     
-    wait(310)
+    wait(210)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
         CFrame.new(-533.32, 108.43, -1399.37)
     print("Teleporting Player To Leave Garden")
