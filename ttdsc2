@@ -16,7 +16,11 @@ local function lockCameraAbovePlayerHead()
             camera.CFrame = CFrame.new(cameraPosition, humanoidRootPart.Position)
 
             -- Kunci kamera agar tidak bisa digerakkan
-            camera.CameraType = Enum.CameraType.Fixed
+            camera.CameraType = Enum.CameraType.Scriptable
+            camera.HeadLocked = true
+
+            -- Mencegah pemain untuk menggerakkan kamera dengan mouse
+            player:GetMouse().ViewportSize = Vector2.new(0, 0)
 
             print("Kamera sekarang terkunci di atas kepala pemain.")
         end
