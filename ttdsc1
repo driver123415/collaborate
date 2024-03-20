@@ -1,0 +1,17 @@
+wait(1)
+local character = game.Players.LocalPlayer.Character
+if character then
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        -- Tentukan vektor yang menghadap ke selatan
+        local southVector = Vector3.new(0, 0, 1)
+
+        -- Dapatkan rotasi yang sesuai untuk menghadap ke arah selatan
+        local rotation = CFrame.new(humanoidRootPart.Position, humanoidRootPart.Position + southVector)
+
+        -- Atur rotasi karakter ke arah selatan
+        humanoidRootPart.CFrame = rotation
+
+        print("Karakter sekarang menghadap ke arah selatan.")
+    end
+end
