@@ -3,26 +3,15 @@ local function lockCameraAbovePlayerHead()
     local player = game.Players.LocalPlayer
     local character = player.Character
     local camera = game.Workspace.CurrentCamera
-
     if character and camera then
         local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-
         if humanoidRootPart then
-            -- Hitung posisi kamera di atas kepala pemain
-            local cameraHeightAboveHead = 5 -- Jarak kamera di atas kepala pemain (sesuaikan keinginan Anda)
+            local cameraHeightAboveHead = 120 -- Jarak kamera di atas kepala
             local cameraPosition = humanoidRootPart.Position + Vector3.new(0, cameraHeightAboveHead, 0)
-
-            -- Atur CFrame kamera
             camera.CFrame = CFrame.new(cameraPosition, humanoidRootPart.Position)
-
-            -- Kunci kamera agar tidak bisa digerakkan
             camera.CameraType = Enum.CameraType.Scriptable
             camera.HeadLocked = true
-
-            -- Mencegah pemain untuk menggerakkan kamera dengan mouse
             player:GetMouse().ViewportSize = Vector2.new(0, 0)
-
-            print("Kamera sekarang terkunci di atas kepala pemain.")
         end
     end
 end
