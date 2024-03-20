@@ -1,0 +1,17 @@
+repeat task.wait() until game:IsLoaded()
+wait(20)
+print("Player Teleporting TDS Run")
+local allowedPlaceId = 13775256536
+
+if game.PlaceId == allowedPlaceId then
+    -- Script hanya dijalankan jika PlaceId sesuai
+    print("Script dijalankan di tempat yang diizinkan.")
+    
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-631.88, 233.73, -263.02)
+    
+else
+wait(2)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(418.29, 91.93, -3108.02)
+game:GetService("Workspace").Camera.CFrame = CFrame.new(421.22171, 219.489197, -3136.23975, -0.999850929, -0.0170072187, 0.00299882889, 2.32830644e-10, 0.17364803, 0.984807789, -0.0172695816, 0.984660983, -0.173622131)
+
+end
