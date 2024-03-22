@@ -1,0 +1,35 @@
+repeat task.wait() until game:IsLoaded()
+wait(5) --waktu tunggu
+print("Player Teleporting TDS Run")
+local allowedPlaceId = 13775256536
+
+if game.PlaceId == allowedPlaceId then
+    -- Script hanya dijalankan jika PlaceId sesuai
+    print("Script dijalankan di tempat yang diizinkan.")
+    
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-631.88, 233.73, -263.02)
+    
+else
+    wait(2)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(405.303619, 89.7443771, -3084.02197, 0.77260381, 6.5332264e-09, -0.63488847, -1.43721541e-08, 1, -7.19930249e-09, 0.63488847, 1.46869228e-08, 0.77260381)
+    game:GetService("Workspace").Camera.CFrame = CFrame.new(421.22171, 219.489197, -3136.23975, -0.999850929, -0.0170072187, 0.00299882889, 2.32830644e-10, 0.17364803, 0.984807789, -0.0172695816, 0.984660983, -0.173622131)
+end
+
+local function lockCameraAbovePlayerHead()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    local camera = game.Workspace.CurrentCamera
+    if character and camera then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            local cameraHeightAboveHead = 120 -- Jarak kamera di atas kepala
+            local cameraPosition = humanoidRootPart.Position + Vector3.new(0, cameraHeightAboveHead, 0)
+            camera.CFrame = CFrame.new(cameraPosition, humanoidRootPart.Position)
+            camera.CameraType = Enum.CameraType.Scriptable
+            camera.HeadLocked = true
+            player:GetMouse().ViewportSize = Vector2.new(0, 0)
+        end
+    end
+end
+
+lockCameraAbovePlayerHead()
