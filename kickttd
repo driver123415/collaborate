@@ -1,3 +1,5 @@
+repeat task.wait() until game:IsLoaded()
+wait(2) --waktu tunggu
 -- Rejoin To Another Server TTD
 print("Detect Promt Kick Is RUNING")
         local PlaceID = 13775256536
