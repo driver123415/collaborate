@@ -1,0 +1,79 @@
+local SearchPlaceID = 14082129854 -- PlaceID untuk mencari server yang tersedia
+local TeleportPlaceID = 14082129854 -- PlaceID untuk tujuan teleportasi
+
+print("Detect Prompt Kick server paskah Is RUNNING")
+
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+
+local function ReadFile(filename)
+    local file = io.open(filename, "r")
+    if file then
+        local content = file:read("*all")
+        file:close()
+        return content
+    end
+    return nil
+end
+
+local function WriteFile(filename, content)
+    local file = io.open(filename, "w")
+    if file then
+        file:write(content)
+        file:close()
+        return true
+    end
+    return false
+end
+
+local function TPReturner()
+    local Site
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. SearchPlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. SearchPlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    
+    for _, v in ipairs(Site.data) do
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            local Possible = true
+            for _, Existing in ipairs(AllIDs) do
+                if ID == tostring(Existing) then
+                    Possible = false
+                    break
+                end
+            end
+            if Possible then
+                table.insert(AllIDs, ID)
+                WriteFile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                game:GetService("TeleportService"):TeleportToPlaceInstance(TeleportPlaceID, ID, game.Players.LocalPlayer)
+                wait(4) -- Menunggu sebentar sebelum mencoba server lainnya
+            end
+        end
+    end
+end
+
+local function Teleport()
+    while true do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+        wait(5) -- Menunggu sebelum mencoba server berikutnya
+    end
+end
+
+local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "PromptOverlay not found")
+assert(not prompt:FindFirstChild("ErrorPrompt"), "ErrorPrompt found")
+wait(2)
+Teleport()
