@@ -1,0 +1,36 @@
+local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
+local TradingCmds = require(game.ReplicatedStorage.Library.Client.TradingCmds)
+
+-- AUTO TRADE TOGGLE
+spawn(function()
+    while true do
+        task.wait(1)
+        local currentState = TradingCmds.GetState()
+        if currentState then
+            for Type, List in Library.Save.Get().Inventory do
+                for i, v in pairs(List) do
+                    if (v.id == "Bucket") then
+                        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Server: Trading: Set Item"):InvokeServer(currentState._id, Type, i, 5000, v.tn)
+                    end
+                end
+            end
+            local localIndex = table.find(TradingCmds.GetState()._players, game.Players.LocalPlayer)
+            pcall(function()
+                while currentState do
+                    if TradingCmds.GetState()._ready[localIndex] == false then
+                        repeat local readySuccess, readyReason = Library.Network.Invoke("Server: Trading: Set Ready", TradingCmds.GetState()._id, true, TradingCmds.GetState()._counter) until readySuccess
+                    end
+                    task.wait(1)
+                end
+            end)
+        else
+            for Player, Table in pairs(TradingCmds.GetAllRequests()) do
+                for Local, Time in pairs(Table) do
+                    if Local and Local == game.Players.LocalPlayer then
+                        Library.Network.Invoke("Server: Trading: Request", Player)
+                    end
+                end
+            end
+        end
+    end
+end)
