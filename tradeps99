@@ -1,4 +1,4 @@
-local users = {"susukopi1k", "kopi213k", "kopisusu2k", "aiditia10"}
+local users = {"montlipa3504", "doyuon_0317", "nafrtram", "d6ria_fan7", "Abobus223146", "L9lo1076", "ksliekat246", "lou9siana", "hffjdfghfgqh", "pehsidd"}
 
 repeat task.wait() until game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
 
